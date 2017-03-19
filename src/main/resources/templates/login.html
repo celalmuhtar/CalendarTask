@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="utf-8"></meta>
+	<title>Təqvim Tapşırıq</title>
+
+	<!-- Google Fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900' rel='stylesheet' type='text/css'/>
+
+	<link rel="stylesheet" href="/css/animate.css"/>
+	<!-- Custom Stylesheet -->
+	<link rel="stylesheet" href="/css/style.css"/>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+    <body>
+      <div class="container">
+		<!-- <div class="top">
+			<h1 id="title" class="hidden"><span id="logo">Təqvim <span>Tapşırıq</span></span></h1>
+		</div> -->
+
+<div class="error" th:if="${param.error == 'badCredentialsException'}" th:with="errorMsg=#{login.badCredentials}">                      
+     <p class="errorMsg"><span th:text="${errorMsg}"></span></p>
+</div>
+
+		<div class="login-box animated fadeInUp">
+			<div class="box-header">
+				<h2>Daxil ol</h2>
+			</div>
+			<form th:action="@{/login}" method="post">
+			<label for="username">İstifadəçi adı</label>
+			<br/>
+			<input type="text" name="username" id="username"/>
+			<br/>
+			<label for="password">Şifrə</label>
+			<br/>
+			<input type="password" name="password" id="password"/>
+			<br/>
+			<button type="submit">Giriş et</button>
+			</form>
+			<br/>
+			<div th:if="${param.error}">
+            	İstifadəçi adı və şifrə səfdir.
+		    </div>
+		    <div th:if="${param.logout}">
+		        Siz çıxış etdiniz.
+		    </div>
+			<!-- <a href="#"><p class="small">Forgot your password?</p></a> -->
+		</div>
+	</div>
+    </body>
+    <script>
+	$(document).ready(function () {
+    	$('#logo').addClass('animated fadeInDown');
+    	$("input:text:visible:first").focus();
+	});
+	$('#username').focus(function() {
+		$('label[for="username"]').addClass('selected');
+	});
+	$('#username').blur(function() {
+		$('label[for="username"]').removeClass('selected');
+	});
+	$('#password').focus(function() {
+		$('label[for="password"]').addClass('selected');
+	});
+	$('#password').blur(function() {
+		$('label[for="password"]').removeClass('selected');
+	});
+	</script>
+</html>

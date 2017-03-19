@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+</head>
+<body>
+<div class="form-group">
+	<table class="table table-striped">
+	    <thead>
+	        <tr>
+				<th>#</th>
+				<th>Tapşırıq adı</th>
+				<th>Tapşırıq</th>
+				<th>Tarix</th>
+				<th>Başlama zamanı</th>
+				<th>Bitmə zamanı</th>
+				<th>Xəbərdarlıq müddəti</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr ng-repeat="usertask in usertasks">
+	            <td>{{$index+1}}</td>
+	            <td>{{usertask.taskName}}</td>
+	            <td>{{usertask.taskContent}}</td>
+	            <td>{{usertask.startTime.split(' ')[0]}}</td>
+	            <td>{{usertask.startTime.split(' ')[1]}}</td>
+	            <td>{{usertask.endTime.split(' ')[1]}}</td>
+	            <td>{{usertask.notif}}</td>
+	        </tr>
+	    </tbody>
+	</table>	
+</div>
+</body>
+</html>

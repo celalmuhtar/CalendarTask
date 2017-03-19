@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+
+<script src="/framework/jquery/1.12.4/jquery.min.js"></script>
+<script src="/framework/angularjs/1.5.0/angular.min.js"></script>
+<script src="/app/date.js" type="text/javascript"></script>
+<script src="/app/app.js" type="text/javascript"></script>
+<script src="/app/notify.min.js" type="text/javascript"></script>
+
+<link href="/framework/bootstrap/3.3.7/css/bootstrap.min.css"  rel="stylesheet" type="text/css"/>
+
+<link rel="stylesheet" href="/framework/kendo/2017.1.118/styles/kendo.common.min.css"/>
+<link rel="stylesheet" href="/framework/kendo/2017.1.118/styles/kendo.rtl.min.css"/>
+<link rel="stylesheet" href="/framework/kendo/2017.1.118/styles/kendo.silver.min.css"/>
+<link rel="stylesheet" href="/framework/kendo/2017.1.118/styles/kendo.mobile.all.min.css"/>
+<link rel="stylesheet" href="/framework/kendo/2017.1.223/styles/kendo.default.min.css"/>
+
+<script src="/framework/kendo/2017.1.118/js/kendo.all.min.js"></script>
+
+
+
+<link rel="stylesheet" href="/framework/kendo/2015.1.408/styles/kendo.common-bootstrap.min.css" />
+<link rel="stylesheet" href="/framework/kendo/2015.1.408/styles/kendo.bootstrap.min.css" />
+<link rel="stylesheet" href="/framework/kendo/2015.1.408/styles/kendo.dataviz.min.css" />
+<link rel="stylesheet" href="/framework/kendo/2015.1.408/styles/kendo.dataviz.bootstrap.min.css" />
+
+<script src="/framework/kendo/angular-kendo-window/master/angular-kendo-window.js"></script>
+
+    
+     
+<link rel="stylesheet" href="/css/style2.css" />
+
+        
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">İŞ TƏQVİMİ</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+    </ul>
+    <ul th:if="!${#httpServletRequest.remoteUser}" class="nav navbar-nav navbar-right">
+   		<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+   		<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+    <ul th:if="${#httpServletRequest.remoteUser}" class="nav navbar-nav navbar-right">
+   		<li><a href="#" th:inline="text"><span class="glyphicon glyphicon-user"></span> Xoş gəldin [[${#httpServletRequest.remoteUser}]]!</a></li>
+   		<li><a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+<!-- <div class="container" th:if="${#httpServletRequest.remoteUser}" style="width: 670px;">
+    <div class="row">
+        <div class="col-md-2">
+            <form method="post" th:action="@{/logout}">
+            <input type="submit" class="btn btn-danger" value="Çıxış"/>
+        </form>
+        </div>
+        <div class="col-md-6">
+             <strong style="font-size: x-large;" th:inline="text">Xoş gəldin [[${#httpServletRequest.remoteUser}]]!</strong>
+        </div>
+    </div>
+</div>
+        
+        
+ -->
+    
+    
+    <div style="margin-top: 10px;">  
+<!--    <input type="text" class="form-control" ng-model="title" style="margin-bottom:5px;"/>
+    <input type="text" class="form-control" ng-model="content" style="margin-bottom:5px;"/>
+    <button type="button" ng-click="openWindow()" class="btn btn-primary" style="margin-bottom:5px;">open kendo window</button>
+    <pre ng-hide="result == ''">{{result}}</pre> -->
+
+
+<!--        <div class="demo-section k-content">
+            <button class="k-button" ng-show="!win2visible" ng-click="win2.open()">Open AJAX content</button>
+        </div>
+       -->
+       
+       <!-- Image and text -->
+
+       
+       <div class="container" style="width: 670px;">
+            <section class="well">
+                <h2 class="ra-well-title">Tapşırıqlarım</h2>
+                <div class="form-horizontal form-widgets col-sm-6">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="tarix2">Tarix</label>
+                        <div class="col-sm-8 col-md-6">
+                            <input id="tarix2" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tapşırıq adı</th>
+                                    <th>Tapşırıq</th>
+                                    <th>Tarix</th>
+                                    <th>Başlama zamanı</th>
+                                    <th>Bitmə zamanı</th>
+                                    <th>Xəbərdarlıq müddəti</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="result in results | orderBy:'startTime'">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{result.taskName}}</td>
+                                    <td>{{result.taskContent}}</td>
+                                    <td>{{result.startTime.split(' ')[0]}}</td>
+                                    <td>{{result.startTime.split(' ')[1]}}</td>
+                                    <td>{{result.endTime.split(' ')[1]}}</td>
+                                    <td>{{result.notif}}</td>
+                                    <td><a href="#" class="btn btn-default" ng-click="editusertask(result)">
+                                    <span class="glyphicon glyphicon-pencil"></span></a></td>
+                                    <td><a href="#" class="btn btn-default" ng-click="deleteusertask(result.taskId)"><span class="glyphicon glyphicon-minus"></span></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="buttons-wrap" ng-show="!checked">
+                <a href="#" class="btn btn-default" ng-click="newTask()">
+                    <span class="glyphicon glyphicon-plus"></span> 
+                Əlavə et</a>
+                    
+                </div>
+            </section>
+        </div>
+        <div class="container" style="width: 670px;" ng-show="checked">
+            <section class="well">
+                <h2 class="ra-well-title">{{basliq}}</h2>
+
+                <div class="form-horizontal form-widgets col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="tarix1">Tarix</label>
+                        <div class="col-sm-8 col-md-6">
+                            <input id="tarix1" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="start">Başlama
+                            zamanı</label>
+                        <div class="col-sm-8 col-md-6">
+                            <input id="start" value="12:00 AM" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="end">Bitmə zamanı</label>
+                        <div class="col-sm-8 col-md-6">
+                            <input id="end" value="12:30 AM" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="maskedtextbox">Xəbərdarlıq müdddəti</label>
+                        <div class="col-sm-8 col-md-6">
+                            <input type="text" id="notif" class="k-textbox" name="notif" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="name">Başlıq</label>
+                        <div class="col-sm-8 col-md-6">
+                            <input id="name" class="k-textbox"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-horizontal form-widgets col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="bio">Tapşırıq</label>
+                        <div class="col-sm-10">
+                            <textarea id="content" class="k-textbox"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="buttons-wrap">
+                <button class="k-button k-state-default">Cancel</button>
+                <button class="k-button k-state-default">Update</button>
+                </div> -->
+                <div class="buttons-wrap">
+                    <a href="#" id="hazir" class="btn btn-default" ng-click="insertusertask()"><span class="glyphicon glyphicon-ok"></span> Hazır</a>
+                    <a href="#" class="btn btn-default" ng-click="checked=false"><span class="glyphicon glyphicon-remove"></span> İmtina</a>
+                </div>
+            </section>
+        </div>
+        <br/>
+    </div>
+</body>
+</html>
